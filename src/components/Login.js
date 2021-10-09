@@ -1,7 +1,19 @@
 import { useState } from "react";
 
 const Login = ({ setUserAuthorised }) => {
+    const [message, setMessage] = useState()
 
+    const onLogin = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target)
+        const userInput = {
+            username: formData.get('username'),
+            password: formData.get('password')
+        }
+
+
+        e.target.reset()
+    }
 
     return (
         <div className="login-div">

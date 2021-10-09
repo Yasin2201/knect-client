@@ -25,7 +25,7 @@ const Navbar = ({ userAuthorised, setUserAuthorised }) => {
         <nav>
             <h1>k'nect</h1>
 
-            {userAuthorised &&
+            {userAuthorised ?
                 <div className="nav-actions">
                     <Link to={`/home`}>
                         Home
@@ -36,7 +36,17 @@ const Navbar = ({ userAuthorised, setUserAuthorised }) => {
                     <button onClick={onSignOut}>
                         Sign Out
                     </button>
-                </div>}
+                </div>
+                :
+                <div className="nav-actions">
+                    <Link to={`/`}>
+                        Login
+                    </Link>
+                    <Link to={`/sign-up`}>
+                        Sign Up
+                    </Link>
+                </div>
+            }
         </nav>
     )
 }

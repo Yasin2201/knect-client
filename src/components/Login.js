@@ -22,6 +22,12 @@ const Login = ({ setUserAuthorised }) => {
             })
             const data = await response.json()
 
+            if (!data.userAuth) {
+                setMessage(data.alerts[0].msg)
+            } else {
+                setMessage()
+            }
+
         } catch (err) {
             console.error(err)
         }

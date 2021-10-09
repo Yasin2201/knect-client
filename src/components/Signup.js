@@ -21,12 +21,7 @@ const Signup = () => {
                 body: JSON.stringify(userInput)
             })
             const data = await response.json()
-
-            if (!data.user) {
-                setMessage(data.alerts[0].msg)
-            } else {
-                setMessage()
-            }
+            setMessage(data.alerts[0].msg)
         } catch (err) {
             console.error(err)
         }
@@ -41,7 +36,7 @@ const Signup = () => {
                 <input id="username" name="username" type="text" />
                 <label htmlFor="password">Password:</label>
                 <input id="password" name="password" type="password" />
-                <button type="submit">Sign In</button>
+                <button type="submit">Sign Up</button>
             </form>
             {message &&
                 <p className="error-message">

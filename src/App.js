@@ -1,5 +1,6 @@
 import Login from './components/Login';
-import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom"
+import Navbar from './components/Navbar';
+import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import { useEffect, useState } from 'react';
 
 const App = () => {
@@ -17,10 +18,11 @@ const App = () => {
   return (
     <div>
       <BrowserRouter>
+        <Navbar userAuthorised={userAuthorised} setUserAuthorised={setUserAuthorised} />
 
         {!userAuthorised ?
           <Switch>
-            <Route exact path='/login'>
+            <Route exact path='/'>
               <Login setUserAuthorised={setUserAuthorised} />
             </Route>
           </Switch>

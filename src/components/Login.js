@@ -11,7 +11,20 @@ const Login = ({ setUserAuthorised }) => {
             password: formData.get('password')
         }
 
+        try {
+            const response = await fetch(`http://localhost:3000/sign-in`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userInput)
+            })
+            const data = await response.json()
 
+        } catch (err) {
+            console.error(err)
+        }
         e.target.reset()
     }
 

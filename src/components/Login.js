@@ -27,7 +27,15 @@ const Login = ({ setUserAuthorised }) => {
             } else {
                 setMessage()
             }
-
+            if (response.status !== 401) {
+                sessionStorage.setItem('token', data.token)
+                sessionStorage.setItem('userAuth', data.userAuth)
+                setUserAuthorised(true)
+            } else {
+                sessionStorage.removeItem('token')
+                sessionStorage.removeItem('userAuth')
+                setUserAuthorised(false)
+            }
         } catch (err) {
             console.error(err)
         }

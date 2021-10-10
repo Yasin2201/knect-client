@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom"
+import { useHistory } from "react-router"
 
 const Navbar = ({ userAuthorised, setUserAuthorised, setCurrUser }) => {
+    let history = useHistory()
 
     const onSignOut = async (e) => {
         e.preventDefault()
@@ -15,8 +17,10 @@ const Navbar = ({ userAuthorised, setUserAuthorised, setCurrUser }) => {
             })
             sessionStorage.removeItem('token')
             sessionStorage.removeItem('userAuth')
+            sessionStorage.removeItem('currUser')
             setUserAuthorised(false)
             setCurrUser(undefined)
+            history.push('/')
         } catch (err) {
             console.error(err)
         }

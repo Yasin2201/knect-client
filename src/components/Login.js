@@ -27,16 +27,12 @@ const Login = ({ setUserAuthorised, setCurrUser }) => {
             } else {
                 setMessage()
             }
-            if (response.status !== 401) {
+            if (response.status === 200) {
                 sessionStorage.setItem('token', data.token)
                 sessionStorage.setItem('userAuth', data.userAuth)
+                sessionStorage.setItem('currUser', data.user)
                 setUserAuthorised(true)
                 setCurrUser(data.user)
-            } else {
-                sessionStorage.removeItem('token')
-                sessionStorage.removeItem('userAuth')
-                setUserAuthorised(false)
-                setCurrUser(undefined)
             }
         } catch (err) {
             console.error(err)

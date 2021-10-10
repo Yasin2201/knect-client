@@ -1,6 +1,6 @@
 const Post = ({ postData }) => {
     return (
-        <div key={postData._id}>
+        <div>
             <h3>{postData.text}</h3>
         </div>
     )

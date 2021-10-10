@@ -29,7 +29,7 @@ const Home = ({ currUser }) => {
     return (
         <div>
             {postsInfo.posts && postsInfo.posts.map((post) => {
-                return <Post postData={post} />
+                return <Post postData={post} key={post._id} />
             })}
         </div>
 

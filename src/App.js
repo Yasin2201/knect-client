@@ -44,7 +44,9 @@ const App = () => {
               <Redirect to='/home' />
             </Route>
 
-
+            <Route exact path='/home'>
+              <Home currUser={currUser} />
+            </Route>
           </Switch>
         }
 

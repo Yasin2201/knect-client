@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Login = ({ setUserAuthorised }) => {
+const Login = ({ setUserAuthorised, setCurrUser }) => {
     const [message, setMessage] = useState()
 
     const onLogin = async (e) => {
@@ -31,10 +31,12 @@ const Login = ({ setUserAuthorised }) => {
                 sessionStorage.setItem('token', data.token)
                 sessionStorage.setItem('userAuth', data.userAuth)
                 setUserAuthorised(true)
+                setCurrUser(data.user)
             } else {
                 sessionStorage.removeItem('token')
                 sessionStorage.removeItem('userAuth')
                 setUserAuthorised(false)
+                setCurrUser(undefined)
             }
         } catch (err) {
             console.error(err)

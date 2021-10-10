@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Post from "./Post";
 
 const Home = ({ currUser }) => {
     const [postsInfo, setPostsInfo] = useState([])
@@ -28,11 +29,7 @@ const Home = ({ currUser }) => {
     return (
         <div>
             {postsInfo.posts && postsInfo.posts.map((post) => {
-                return (
-                    <div key={post._id}>
-                        <h3>{post.text}</h3>
-                    </div>
-                )
+                return <Post postData={post} />
             })}
         </div>
 

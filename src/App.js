@@ -1,28 +1,34 @@
 import Login from './components/Login';
 import Navbar from './components/Navbar';
 import Signup from './components/Signup';
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { useEffect, useState } from 'react';
+import Home from './components/Home';
+import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
+import { useState } from 'react';
+import { useEffect } from 'react/cjs/react.development';
 
 const App = () => {
   const [userAuthorised, setUserAuthorised] = useState(false)
-  const [currUser, setCurrUser] = useState(undefined)
+  const [currUser, setCurrUser] = useState()
 
   useEffect(() => {
     const userAuth = sessionStorage.getItem('userAuth')
+    const currUserID = sessionStorage.getItem('currUser')
+
     if (userAuth) {
       setUserAuthorised(true)
+      setCurrUser(currUserID)
     } else {
       setUserAuthorised(false)
+      setCurrUser()
     }
   }, [])
 
   return (
     <div>
       <BrowserRouter>
-        <Navbar userAuthorised={userAuthorised} setUserAuthorised={setUserAuthorised} />
+        <Navbar userAuthorised={userAuthorised} setUserAuthorised={setUserAuthorised} setCurrUser={setCurrUser} />
 
-        {!userAuthorised ?
+        {!userAuthorised && !currUser ?
           <Switch>
             <Route exact path='/'>
               <Login setUserAuthorised={setUserAuthorised} setCurrUser={setCurrUser} />
@@ -33,9 +39,7 @@ const App = () => {
             </Route>
           </Switch>
           :
-          <div>
-            LOGGED IN!
-          </div>
+          <div></div>
         }
 
       </BrowserRouter>

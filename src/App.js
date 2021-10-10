@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 
 const App = () => {
   const [userAuthorised, setUserAuthorised] = useState(false)
+  const [currUser, setCurrUser] = useState(undefined)
 
   useEffect(() => {
     const userAuth = sessionStorage.getItem('userAuth')
@@ -24,7 +25,7 @@ const App = () => {
         {!userAuthorised ?
           <Switch>
             <Route exact path='/'>
-              <Login setUserAuthorised={setUserAuthorised} />
+              <Login setUserAuthorised={setUserAuthorised} setCurrUser={setCurrUser} />
             </Route>
 
             <Route exact path='/sign-up'>

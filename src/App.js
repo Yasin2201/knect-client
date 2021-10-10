@@ -39,7 +39,13 @@ const App = () => {
             </Route>
           </Switch>
           :
-          <div></div>
+          <Switch>
+            <Route exact path='/'>
+              <Redirect to='/home' />
+            </Route>
+
+
+          </Switch>
         }
 
       </BrowserRouter>

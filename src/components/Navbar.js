@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-const Navbar = ({ userAuthorised, setUserAuthorised }) => {
+const Navbar = ({ userAuthorised, setUserAuthorised, setCurrUser }) => {
 
     const onSignOut = async (e) => {
         e.preventDefault()
@@ -16,6 +16,7 @@ const Navbar = ({ userAuthorised, setUserAuthorised }) => {
             sessionStorage.removeItem('token')
             sessionStorage.removeItem('userAuth')
             setUserAuthorised(false)
+            setCurrUser(undefined)
         } catch (err) {
             console.error(err)
         }

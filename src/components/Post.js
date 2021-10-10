@@ -1,7 +1,7 @@
-const Post = ({ postDetails }) => {
+const Post = ({ postData }) => {
     return (
-        <div>
-
+        <div key={postData._id}>
+            <h3>{postData.text}</h3>
         </div>
     )
 }

@@ -45,7 +45,16 @@ const Comment = ({ postID }) => {
     }, [postID])
 
     return (
-        <div></div>
+        commentsInfo.length > 0 && commentsInfo.map((comment) => {
+            return (
+                <div key={comment._id} style={{ border: '1px solid red' }}>
+                    <p>{comment.commentUsername}</p>
+                    <p>{comment.text}</p>
+                    <p>Likes: {comment.likes.length}</p>
+                    <p>{comment.date} @ {comment.time}</p>
+                </div>
+            )
+        })
     )
 }
 

@@ -2,6 +2,7 @@ import Login from './components/Login';
 import Navbar from './components/Navbar';
 import Signup from './components/Signup';
 import Home from './components/Home';
+import Profile from './components/Profile';
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import { useState } from 'react';
 import { useEffect } from 'react/cjs/react.development';
@@ -46,6 +47,10 @@ const App = () => {
 
             <Route exact path='/home'>
               <Home currUser={currUser} />
+            </Route>
+
+            <Route exact path='/profile/:id'>
+              <Profile />
             </Route>
           </Switch>
         }

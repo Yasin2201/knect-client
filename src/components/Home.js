@@ -17,7 +17,29 @@ const Home = ({ currUser }) => {
                         },
                     })
                     const data = await res.json()
-                    setPostsInfo(data)
+
+                    const formattedData = data.posts.map((post) => {
+                        const postUsername = data.allUsers.find(user => post.userId === user._id).username
+
+                        const formattedDate = new Date(post.date).toLocaleDateString("en-gb", {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                        })
+                        const formattedTime = new Date(post.date).toLocaleTimeString("en-US", {
+                            hour: "numeric",
+                            minute: "numeric",
+                        })
+
+                        return {
+                            postUsername,
+                            ...post,
+                            date: formattedDate,
+                            time: formattedTime
+                        }
+                    })
+
+                    setPostsInfo(formattedData)
                 } catch (err) {
                     throw err
                 }
@@ -28,8 +50,8 @@ const Home = ({ currUser }) => {
 
     return (
         <div>
-            {postsInfo.posts && postsInfo.posts.map((post) => {
-                return <Post postData={post} key={post._id} />
+            {postsInfo.length > 0 && postsInfo.map((data) => {
+                return <Post postData={data} key={data._id} />
             })}
         </div>
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-
+import Post from './Post';
 //TO-DO----
 //Get current users details
 //Get friends list same as above res
@@ -25,7 +25,7 @@ const Profile = () => {
                 const data = await response.json()
 
                 if (response.status === 200) {
-                    setUserDetails(data)
+                    setUserDetails(data.user)
                 }
             } catch (err) {
                 throw err
@@ -33,13 +33,16 @@ const Profile = () => {
         }
 
         getUsersDetails()
-
     }, [id])
 
-    console.log(userDetails)
     return (
         <div>
-
+            {userDetails &&
+                <div>
+                    <h1>{userDetails.username}</h1>
+                    <h3>My Posts</h3>
+                    <Post />
+                </div>}
         </div>
     )
 }

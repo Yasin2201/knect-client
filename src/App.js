@@ -27,7 +27,7 @@ const App = () => {
   return (
     <div>
       <BrowserRouter>
-        <Navbar userAuthorised={userAuthorised} setUserAuthorised={setUserAuthorised} setCurrUser={setCurrUser} />
+        <Navbar userAuthorised={userAuthorised} setUserAuthorised={setUserAuthorised} currUser={currUser} setCurrUser={setCurrUser} />
 
         {!userAuthorised && !currUser ?
           <Switch>

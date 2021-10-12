@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import { useHistory } from "react-router"
 
-const Navbar = ({ userAuthorised, setUserAuthorised, setCurrUser }) => {
+const Navbar = ({ userAuthorised, setUserAuthorised, currUser, setCurrUser }) => {
     let history = useHistory()
 
     const onSignOut = async (e) => {
@@ -32,10 +32,10 @@ const Navbar = ({ userAuthorised, setUserAuthorised, setCurrUser }) => {
 
             {userAuthorised ?
                 <div className="nav-actions">
-                    <Link to={`/home`}>
+                    <Link to={`/`}>
                         Home
                     </Link>
-                    <Link to={`/profile`}>
+                    <Link to={`/profile/${currUser}`}>
                         Profile
                     </Link>
                     <button onClick={onSignOut}>

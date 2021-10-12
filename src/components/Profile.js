@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Post from './Post';
+
 //TO-DO----
-//Get current users details
-//Get friends list same as above res
-//Get users posts
+//Get friends list and render
 //Get liked posts
 
 const Profile = () => {
@@ -12,6 +11,8 @@ const Profile = () => {
     const { id } = useParams();
 
     useEffect(() => {
+        getUsersDetails()
+
         async function getUsersDetails() {
             try {
                 const response = await fetch(`http://localhost:3000/profile/${id}`, {
@@ -31,18 +32,21 @@ const Profile = () => {
                 throw err
             }
         }
-
-        getUsersDetails()
     }, [id])
+
 
     return (
         <div>
-            {userDetails &&
-                <div>
-                    <h1>{userDetails.username}</h1>
-                    <h3>My Posts</h3>
-                    <Post />
-                </div>}
+            {
+                userDetails ?
+                    <div>
+                        <h1>{userDetails.username}</h1>
+                        <h3>My Posts</h3>
+                        <Post userDetails={userDetails} />
+                    </div>
+                    :
+                    <div>Loading...</div>
+            }
         </div>
     )
 }

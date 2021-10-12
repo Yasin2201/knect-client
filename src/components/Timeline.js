@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Comment from './Comment';
 
 const Timeline = ({ currUser }) => {
@@ -6,7 +7,9 @@ const Timeline = ({ currUser }) => {
 
     useEffect(() => {
         if (currUser) {
-            const getAllPosts = async () => {
+            getAllPosts()
+
+            async function getAllPosts() {
                 try {
                     const res = await fetch(`http://localhost:3000/${currUser}/timeline`, {
                         method: 'GET',
@@ -20,6 +23,7 @@ const Timeline = ({ currUser }) => {
 
                     const formattedData = data.posts.map((post) => {
                         const postUsername = data.allUsers.find(user => post.userId === user._id).username
+                        const comments = data.postsComments.filter((comment) => comment.postId === post._id)
 
                         const formattedDate = new Date(post.date).toLocaleDateString("en-gb", {
                             year: "numeric",
@@ -34,32 +38,40 @@ const Timeline = ({ currUser }) => {
                         return {
                             postUsername,
                             ...post,
+                            comments: [...comments],
                             date: formattedDate,
                             time: formattedTime
                         }
                     })
-
-                    setPostsInfo(formattedData)
+                    if (res.status === 200) {
+                        setPostsInfo(formattedData)
+                    }
                 } catch (err) {
                     throw err
                 }
             }
-            getAllPosts()
         }
     }, [currUser])
 
     return (
-        postsInfo.length > 0 && postsInfo.map((data) => {
-            return (
-                <div key={data._id} style={{ border: '2px solid black' }}>
-                    <p>{data.postUsername}</p>
-                    <p>{data.text}</p>
-                    <p>Likes: {data.likes.length}</p>
-                    <p>{data.date} @ {data.time}</p>
-                    <Comment postID={data._id} />
-                </div>
-            )
-        })
+        <div>
+            {postsInfo.length > 0 ?
+                postsInfo.map((data) => {
+                    return (
+                        <div key={data._id} style={{ border: '2px solid black' }}>
+                            <Link to={`/profile/${data.userId}`}>{data.postUsername}</Link>
+                            <p>{data.text}</p>
+                            <p>Likes: {data.likes.length}</p>
+                            <p>{data.date} @ {data.time}</p>
+                            <Comment comments={data.comments} />
+                        </div>
+                    )
+                })
+                :
+                <div>Loading...</div>
+            }
+        </div>
+
     )
 }
 

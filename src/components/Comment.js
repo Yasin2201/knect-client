@@ -33,7 +33,7 @@ const Comment = ({ comments }) => {
                 formattedComments.map((comment) => {
                     return (
                         <div key={comment._id} style={{ border: '1px solid red' }}>
-                            <Link to={`/profile/${comment.userId}`}>{comment.commentUsername}</Link>
+                            <Link to={`/profile/${comment.userId}`}>{comment.username}</Link>
                             <p>{comment.text}</p>
                             <p>Likes: {comment.likes.length}</p>
                             <p>{comment.date} @ {comment.time}</p>

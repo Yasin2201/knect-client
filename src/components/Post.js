@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import Comment from './Comment';
 
-const Post = ({ userDetails }) => {
+const Post = () => {
     const [postsInfo, setPostsInfo] = useState([])
     const { id } = useParams()
 
@@ -60,7 +60,7 @@ const Post = ({ userDetails }) => {
             {postsInfo.length > 0 ? postsInfo.map((data) => {
                 return (
                     <div key={data._id} style={{ border: '2px solid black' }}>
-                        <Link to={`/profile/${data.userId}`}>{userDetails.username}</Link>
+                        <Link to={`/profile/${data.userId}`}>{data.username}</Link>
                         <p>{data.text}</p>
                         <p>Likes: {data.likes.length}</p>
                         <p>{data.date} @ {data.time}</p>

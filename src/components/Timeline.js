@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Comment from './Comment';
-
+import NewPost from "./NewPost";
 const Timeline = ({ currUser }) => {
     const [postsInfo, setPostsInfo] = useState([])
 
@@ -55,6 +55,7 @@ const Timeline = ({ currUser }) => {
 
     return (
         <div>
+            <NewPost currUser={currUser} />
             {postsInfo.length > 0 ?
                 postsInfo.map((data) => {
                     return (

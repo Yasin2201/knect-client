@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const NewPost = ({ currUser }) => {
+const NewPost = ({ currUser, setPostsInfo, postsInfo }) => {
     const [errors, setErrors] = useState();
 
     const submitNewPost = async (e) => {
@@ -26,7 +26,26 @@ const NewPost = ({ currUser }) => {
                 setErrors(data.alerts)
             } else {
                 setErrors()
-                window.location.reload(false);
+                e.target.reset()
+
+                const formattedDate = new Date(data.post.date).toLocaleDateString("en-gb", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                })
+                const formattedTime = new Date(data.post.date).toLocaleTimeString("en-US", {
+                    hour: "numeric",
+                    minute: "numeric",
+                })
+
+                const formattedNewPost = {
+                    ...data.post,
+                    comments: [],
+                    date: formattedDate,
+                    time: formattedTime
+                }
+
+                setPostsInfo([formattedNewPost, ...postsInfo])
             }
         } catch (err) {
             throw err

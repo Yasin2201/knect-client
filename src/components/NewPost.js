@@ -1,8 +1,14 @@
-const NewPost = () => {
-    return (
-        <div>
+const NewPost = ({ postsInfo, setPostsInfo }) => {
 
-        </div>
+    const submitNewPost = async (e) => {
+
+    }
+
+    return (
+        <form className="new-comment-form" onSubmit={(e) => submitNewPost(e)}>
+            <textarea type="text" name="text" placeholder="Share your thoughts..." />
+            <button className="submit-btn" type="submit">Submit</button>
+        </form>
     )
 };
 

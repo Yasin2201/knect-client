@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Comment from './Comment';
 import NewPost from "./NewPost";
+import Post from "./Post";
+
 const Timeline = ({ currUser }) => {
     const [postsInfo, setPostsInfo] = useState([])
 
@@ -58,15 +60,7 @@ const Timeline = ({ currUser }) => {
             <NewPost currUser={currUser} />
             {postsInfo.length > 0 ?
                 postsInfo.map((data) => {
-                    return (
-                        <div key={data._id} style={{ border: '2px solid black' }}>
-                            <Link to={`/profile/${data.userId}`}>{data.username}</Link>
-                            <p>{data.text}</p>
-                            <p>Likes: {data.likes.length}</p>
-                            <p>{data.date} @ {data.time}</p>
-                            <Comment comments={data.comments} />
-                        </div>
-                    )
+                    return <Post data={data} key={data._id} />
                 })
                 :
                 <div>Loading...</div>

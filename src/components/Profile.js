@@ -9,6 +9,7 @@ import NewPost from "./NewPost";
 
 const Profile = ({ currUser }) => {
     const [userDetails, setUserDetails] = useState()
+    const [postsInfo, setPostsInfo] = useState([])
     const { id } = useParams();
 
     useEffect(() => {
@@ -37,6 +38,53 @@ const Profile = ({ currUser }) => {
         }
     }, [id])
 
+    useEffect(() => {
+        let isMounted = true;
+        getAllPosts()
+        return () => { isMounted = false }
+
+        async function getAllPosts() {
+            try {
+                const res = await fetch(`http://localhost:3000/${id}/posts`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                    },
+                })
+                const data = await res.json()
+
+                const formattedData = data.allPosts.map((post) => {
+                    const comments = data.postsComments.filter((comment) => comment.postId === post._id)
+
+                    const formattedDate = new Date(post.date).toLocaleDateString("en-gb", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                    })
+                    const formattedTime = new Date(post.date).toLocaleTimeString("en-US", {
+                        hour: "numeric",
+                        minute: "numeric",
+                    })
+
+                    return {
+                        ...post,
+                        comments: [...comments],
+                        date: formattedDate,
+                        time: formattedTime
+                    }
+                })
+
+                if (res.status === 200 && isMounted) {
+                    setPostsInfo(formattedData)
+                }
+            } catch (err) {
+                throw err
+            }
+        }
+    }, [id])
+
 
     return (
         <div>
@@ -46,7 +94,9 @@ const Profile = ({ currUser }) => {
                         <h1>{userDetails.username}</h1>
                         {currUser === id && <NewPost currUser={currUser} />}
                         <h3>My Posts</h3>
-                        <Post />
+                        {postsInfo.map((data) => {
+                            return <Post data={data} key={data._id} />
+                        })}
                     </div>
                     :
                     <div>Loading...</div>

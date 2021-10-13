@@ -7,7 +7,9 @@ const Timeline = ({ currUser }) => {
 
     useEffect(() => {
         if (currUser) {
+            let isMounted = true;
             getAllPosts()
+            return () => { isMounted = false }
 
             async function getAllPosts() {
                 try {
@@ -22,7 +24,6 @@ const Timeline = ({ currUser }) => {
                     const data = await res.json()
 
                     const formattedData = data.posts.map((post) => {
-                        const postUsername = data.allUsers.find(user => post.userId === user._id).username
                         const comments = data.postsComments.filter((comment) => comment.postId === post._id)
 
                         const formattedDate = new Date(post.date).toLocaleDateString("en-gb", {
@@ -36,14 +37,13 @@ const Timeline = ({ currUser }) => {
                         })
 
                         return {
-                            postUsername,
                             ...post,
                             comments: [...comments],
                             date: formattedDate,
                             time: formattedTime
                         }
                     })
-                    if (res.status === 200) {
+                    if (res.status === 200 && isMounted) {
                         setPostsInfo(formattedData)
                     }
                 } catch (err) {
@@ -59,7 +59,7 @@ const Timeline = ({ currUser }) => {
                 postsInfo.map((data) => {
                     return (
                         <div key={data._id} style={{ border: '2px solid black' }}>
-                            <Link to={`/profile/${data.userId}`}>{data.postUsername}</Link>
+                            <Link to={`/profile/${data.userId}`}>{data.username}</Link>
                             <p>{data.text}</p>
                             <p>Likes: {data.likes.length}</p>
                             <p>{data.date} @ {data.time}</p>

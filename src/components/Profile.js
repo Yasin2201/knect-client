@@ -11,7 +11,9 @@ const Profile = () => {
     const { id } = useParams();
 
     useEffect(() => {
+        let isMounted = true;
         getUsersDetails()
+        return () => { isMounted = false }
 
         async function getUsersDetails() {
             try {
@@ -25,7 +27,7 @@ const Profile = () => {
                 })
                 const data = await response.json()
 
-                if (response.status === 200) {
+                if (response.status === 200 && isMounted) {
                     setUserDetails(data.user)
                 }
             } catch (err) {
@@ -42,7 +44,7 @@ const Profile = () => {
                     <div>
                         <h1>{userDetails.username}</h1>
                         <h3>My Posts</h3>
-                        <Post userDetails={userDetails} />
+                        <Post />
                     </div>
                     :
                     <div>Loading...</div>

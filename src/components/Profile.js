@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Post from './Post';
+import NewPost from "./NewPost";
 
 //TO-DO----
 //Get friends list and render
 //Get liked posts
 
-const Profile = () => {
+const Profile = ({ currUser }) => {
     const [userDetails, setUserDetails] = useState()
     const { id } = useParams();
 
@@ -43,6 +44,7 @@ const Profile = () => {
                 userDetails ?
                     <div>
                         <h1>{userDetails.username}</h1>
+                        {currUser === id && <NewPost currUser={currUser} />}
                         <h3>My Posts</h3>
                         <Post />
                     </div>

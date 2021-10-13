@@ -46,7 +46,7 @@ const App = () => {
             </Route>
 
             <Route exact path='/profile/:id'>
-              <Profile />
+              <Profile currUser={currUser} />
             </Route>
           </Switch>
         }

@@ -67,6 +67,31 @@ const Post = ({ data, postsInfo, setPostsInfo }) => {
         }
     }
 
+    const likePost = async () => {
+        try {
+            const res = await fetch(`http://localhost:3000/${currUser}/like-post/${data._id}`, {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                },
+            })
+            const responseData = await res.json()
+
+            const updatedPosts = postsInfo.map((post) => {
+                return post._id === data._id ? { ...post, likes: responseData.newPost.likes } : { ...post }
+            })
+
+            if (res.status === 201) {
+                setPostsInfo(updatedPosts)
+                console.log(updatedPosts)
+            }
+        } catch (err) {
+            throw err
+        }
+    }
+
     return (
         isEditing
             ?
@@ -84,6 +109,7 @@ const Post = ({ data, postsInfo, setPostsInfo }) => {
                 <p>{data.text}</p>
                 <p>Likes: {data.likes.length}</p>
                 <p>{data.date} @ {data.time}</p>
+                {data.likes.includes(currUser) ? <button onClick={likePost}>Unlike</button> : <button onClick={likePost}>Like</button>}
                 {currUser === data.userId && <button onClick={editPost}>Edit</button>}
                 {currUser === data.userId && <button onClick={deletePost}>Delete</button>}
                 <Comment comments={data.comments} />

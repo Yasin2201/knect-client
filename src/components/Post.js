@@ -42,6 +42,31 @@ const Post = ({ data, postsInfo, setPostsInfo }) => {
         }
     }
 
+    const deletePost = async () => {
+        try {
+            const res = await fetch(`http://localhost:3000/${currUser}/delete-post/${data._id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                },
+            })
+            const responseData = await res.json()
+
+            const updatedPosts = postsInfo.filter((post) => {
+                return post._id !== editedPost._id
+            })
+
+            if (res.status === 200) {
+                setPostsInfo(updatedPosts)
+                console.log(responseData.alerts)
+            }
+        } catch (err) {
+            throw err
+        }
+    }
+
     return (
         isEditing
             ?
@@ -60,6 +85,7 @@ const Post = ({ data, postsInfo, setPostsInfo }) => {
                 <p>Likes: {data.likes.length}</p>
                 <p>{data.date} @ {data.time}</p>
                 {currUser === data.userId && <button onClick={editPost}>Edit</button>}
+                {currUser === data.userId && <button onClick={deletePost}>Delete</button>}
                 <Comment comments={data.comments} />
             </div>
     )

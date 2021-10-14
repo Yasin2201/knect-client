@@ -96,7 +96,7 @@ const Profile = ({ currUser }) => {
 
                         <h3>My Posts</h3>
                         {postsInfo.map((data) => {
-                            return <Post data={data} key={data._id} />
+                            return <Post data={data} key={data._id} postsInfo={postsInfo} setPostsInfo={setPostsInfo} />
                         })}
                     </div>
                     :

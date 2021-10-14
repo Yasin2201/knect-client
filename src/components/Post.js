@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import Comment from './Comment';
+import NewComment from './NewComment';
 
 const Post = ({ data, postsInfo, setPostsInfo }) => {
     const [isEditing, setIsEditing] = useState(false)
@@ -164,6 +165,7 @@ const Post = ({ data, postsInfo, setPostsInfo }) => {
                 {showComments ?
                     <div>
                         <button onClick={toggleComments}>Hide Comments</button>
+                        <NewComment currUser={currUser} postId={data._id} comments={comments} setComments={setComments} />
                         {comments.map((comment) => {
                             return <Comment data={comment} key={comment._id} comments={comments} setComments={setComments} />
                         })}

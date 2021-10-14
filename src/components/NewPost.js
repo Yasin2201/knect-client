@@ -40,7 +40,6 @@ const NewPost = ({ currUser, setPostsInfo, postsInfo }) => {
 
                 const formattedNewPost = {
                     ...data.post,
-                    comments: [],
                     date: formattedDate,
                     time: formattedTime
                 }

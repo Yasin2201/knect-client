@@ -41,6 +41,31 @@ const Comment = ({ data, comments, setComments }) => {
         }
     }
 
+    const deleteComment = async () => {
+        try {
+            const res = await fetch(`http://localhost:3000/${currUser}/delete-comment/${data._id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                },
+            })
+            const responseData = await res.json()
+
+            const updatedComments = comments.filter((comment) => {
+                return comment._id !== editedComment._id
+            })
+
+            if (res.status === 200) {
+                setComments(updatedComments)
+                console.log(responseData.alerts)
+            }
+        } catch (err) {
+            throw err
+        }
+    }
+
     return (
         isEditing ?
             <div key={data._id} style={{ border: '1px solid red' }}>
@@ -57,6 +82,7 @@ const Comment = ({ data, comments, setComments }) => {
                 <p>{data.text}</p>
                 <p>Likes: {data.likes.length}</p>
                 <p>{data.date} @ {data.time}</p>
+                {currUser === data.userId && <button onClick={deleteComment}>Delete</button>}
                 {currUser === data.userId && <button onClick={toggleEdit}>Edit</button>}
             </div>
     )

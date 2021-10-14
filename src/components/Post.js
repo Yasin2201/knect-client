@@ -4,6 +4,7 @@ import Comment from './Comment';
 
 const Post = ({ data, postsInfo, setPostsInfo }) => {
     const [isEditing, setIsEditing] = useState(false)
+    const [showComments, setShowComments] = useState(false)
     const [editedPost, setEditedPost] = useState(data)
     const currUser = sessionStorage.getItem('currUser')
 
@@ -67,7 +68,7 @@ const Post = ({ data, postsInfo, setPostsInfo }) => {
         }
     }
 
-    const likePost = async () => {
+    const toggleLike = async () => {
         try {
             const res = await fetch(`http://localhost:3000/${currUser}/like-post/${data._id}`, {
                 method: 'PUT',
@@ -92,6 +93,10 @@ const Post = ({ data, postsInfo, setPostsInfo }) => {
         }
     }
 
+    const toggleComments = () => {
+        setShowComments(!showComments)
+    }
+
     return (
         isEditing
             ?
@@ -109,10 +114,18 @@ const Post = ({ data, postsInfo, setPostsInfo }) => {
                 <p>{data.text}</p>
                 <p>Likes: {data.likes.length}</p>
                 <p>{data.date} @ {data.time}</p>
-                {data.likes.includes(currUser) ? <button onClick={likePost}>Unlike</button> : <button onClick={likePost}>Like</button>}
+                {data.likes.includes(currUser) ? <button onClick={toggleLike}>Unlike</button> : <button onClick={toggleLike}>Like</button>}
                 {currUser === data.userId && <button onClick={editPost}>Edit</button>}
                 {currUser === data.userId && <button onClick={deletePost}>Delete</button>}
-                <Comment comments={data.comments} />
+                {showComments ?
+                    <div>
+                        <button onClick={toggleComments}>Hide Comments</button>
+                        <Comment comments={data.comments} />
+                    </div>
+                    :
+                    <div>
+                        <button onClick={toggleComments}>Show Comments</button>
+                    </div>}
             </div>
     )
 }

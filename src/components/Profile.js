@@ -56,7 +56,6 @@ const Profile = ({ currUser }) => {
                 const data = await res.json()
 
                 const formattedData = data.allPosts.map((post) => {
-                    const comments = data.postsComments.filter((comment) => comment.postId === post._id)
 
                     const formattedDate = new Date(post.date).toLocaleDateString("en-gb", {
                         year: "numeric",
@@ -70,7 +69,6 @@ const Profile = ({ currUser }) => {
 
                     return {
                         ...post,
-                        comments: [...comments],
                         date: formattedDate,
                         time: formattedTime
                     }

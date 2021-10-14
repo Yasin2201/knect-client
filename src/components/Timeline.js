@@ -24,7 +24,6 @@ const Timeline = ({ currUser }) => {
                     const data = await res.json()
 
                     const formattedData = data.posts.map((post) => {
-                        const comments = data.postsComments.filter((comment) => comment.postId === post._id)
 
                         const formattedDate = new Date(post.date).toLocaleDateString("en-gb", {
                             year: "numeric",
@@ -38,7 +37,6 @@ const Timeline = ({ currUser }) => {
 
                         return {
                             ...post,
-                            comments: [...comments],
                             date: formattedDate,
                             time: formattedTime
                         }

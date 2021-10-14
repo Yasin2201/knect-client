@@ -1,12 +1,57 @@
 import { Link } from "react-router-dom";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Comment from './Comment';
 
 const Post = ({ data, postsInfo, setPostsInfo }) => {
     const [isEditing, setIsEditing] = useState(false)
+    const [comments, setComments] = useState([])
     const [showComments, setShowComments] = useState(false)
     const [editedPost, setEditedPost] = useState(data)
     const currUser = sessionStorage.getItem('currUser')
+
+    useEffect(() => {
+        let isMounted = true;
+        getAllPostsComments()
+        return () => { isMounted = false }
+
+        async function getAllPostsComments() {
+            try {
+                const res = await fetch(`http://localhost:3000/${data._id}/comments`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                    },
+                })
+                const resData = await res.json()
+
+                const formattedData = resData.comments.map((comment) => {
+                    const formattedDate = new Date(comment.date).toLocaleDateString("en-gb", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                    })
+                    const formattedTime = new Date(comment.date).toLocaleTimeString("en-US", {
+                        hour: "numeric",
+                        minute: "numeric",
+                    })
+
+                    return {
+                        ...comment,
+                        date: formattedDate,
+                        time: formattedTime
+                    }
+                })
+
+                if (res.status === 200 && isMounted) {
+                    setComments(formattedData)
+                }
+            } catch (err) {
+                throw err
+            }
+        }
+    }, [data._id])
 
     const editPost = () => {
         setIsEditing(!isEditing)
@@ -86,7 +131,6 @@ const Post = ({ data, postsInfo, setPostsInfo }) => {
 
             if (res.status === 201) {
                 setPostsInfo(updatedPosts)
-                console.log(updatedPosts)
             }
         } catch (err) {
             throw err
@@ -120,7 +164,9 @@ const Post = ({ data, postsInfo, setPostsInfo }) => {
                 {showComments ?
                     <div>
                         <button onClick={toggleComments}>Hide Comments</button>
-                        <Comment comments={data.comments} />
+                        {comments.map((comment) => {
+                            return <Comment data={comment} key={comment._id} />
+                        })}
                     </div>
                     :
                     <div>

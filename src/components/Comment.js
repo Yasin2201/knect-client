@@ -1,46 +1,15 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const Comment = ({ comments }) => {
-    const [formattedComments, setFormattedComments] = useState([])
+const Comment = ({ data }) => {
 
-    useEffect(() => {
-        const formattedData = comments.map((comment) => {
-            const formattedDate = new Date(comment.date).toLocaleDateString("en-gb", {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-            })
-            const formattedTime = new Date(comment.date).toLocaleTimeString("en-US", {
-                hour: "numeric",
-                minute: "numeric",
-            })
-
-            return {
-                ...comment,
-                date: formattedDate,
-                time: formattedTime
-            }
-        })
-        setFormattedComments(formattedData)
-    }, [comments])
-
-    // console.log(formattedComments)
     return (
         <div>
-            {
-                formattedComments.length > 0 &&
-                formattedComments.map((comment) => {
-                    return (
-                        <div key={comment._id} style={{ border: '1px solid red' }}>
-                            <Link to={`/profile/${comment.userId}`}>{comment.username}</Link>
-                            <p>{comment.text}</p>
-                            <p>Likes: {comment.likes.length}</p>
-                            <p>{comment.date} @ {comment.time}</p>
-                        </div>
-                    )
-                })
-            }
+            <div key={data._id} style={{ border: '1px solid red' }}>
+                <Link to={`/profile/${data.userId}`}>{data.username}</Link>
+                <p>{data.text}</p>
+                <p>Likes: {data.likes.length}</p>
+                <p>{data.date} @ {data.time}</p>
+            </div>
         </div>
 
     )

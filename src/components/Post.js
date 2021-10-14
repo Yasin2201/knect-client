@@ -29,11 +29,7 @@ const Post = ({ data, postsInfo, setPostsInfo }) => {
             const responseData = await res.json()
 
             const updatedPosts = postsInfo.map((post) => {
-                if (post._id === editedPost._id) {
-                    return { ...post, text: editedPost.text }
-                } else {
-                    return post
-                }
+                return post._id === editedPost._id ? { ...post, text: editedPost.text } : post
             })
 
             if (res.status === 200) {
@@ -63,7 +59,7 @@ const Post = ({ data, postsInfo, setPostsInfo }) => {
                 <p>{data.text}</p>
                 <p>Likes: {data.likes.length}</p>
                 <p>{data.date} @ {data.time}</p>
-                <button onClick={editPost}>Edit</button>
+                {currUser === data.userId && <button onClick={editPost}>Edit</button>}
                 <Comment comments={data.comments} />
             </div>
     )

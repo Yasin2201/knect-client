@@ -165,7 +165,7 @@ const Post = ({ data, postsInfo, setPostsInfo }) => {
                     <div>
                         <button onClick={toggleComments}>Hide Comments</button>
                         {comments.map((comment) => {
-                            return <Comment data={comment} key={comment._id} />
+                            return <Comment data={comment} key={comment._id} comments={comments} setComments={setComments} />
                         })}
                     </div>
                     :

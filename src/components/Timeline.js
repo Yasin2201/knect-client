@@ -58,7 +58,7 @@ const Timeline = ({ currUser }) => {
             <NewPost currUser={currUser} postsInfo={postsInfo} setPostsInfo={setPostsInfo} />
             {postsInfo.length > 0 ?
                 postsInfo.map((data) => {
-                    return <Post data={data} key={data._id} />
+                    return <Post data={data} key={data._id} postsInfo={postsInfo} setPostsInfo={setPostsInfo} />
                 })
                 :
                 <div>Loading...</div>

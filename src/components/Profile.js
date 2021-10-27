@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Post from './Post';
 import NewPost from "./NewPost";
+import FriendsDisplay from "./friends/FriendsDisplay";
 
 //TO-DO----
 //Get friends list and render
@@ -90,6 +91,7 @@ const Profile = ({ currUser }) => {
                 userDetails ?
                     <div>
                         <h1>{userDetails.username}</h1>
+                        {currUser === id && <FriendsDisplay />}
                         {currUser === id && <NewPost currUser={currUser} postsInfo={postsInfo} setPostsInfo={setPostsInfo} />}
 
                         <h3>My Posts</h3>

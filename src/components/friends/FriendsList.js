@@ -12,6 +12,7 @@ const FriendsList = ({ currUser }) => {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
                     },
                 })
                 const data = await res.json()

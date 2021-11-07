@@ -1,5 +1,5 @@
+import RequestCard from "./RequestCard"
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
 
 const ReceivedFriendRequests = ({ currUser }) => {
     const [requests, setRequests] = useState([])
@@ -27,18 +27,13 @@ const ReceivedFriendRequests = ({ currUser }) => {
             console.log(error)
         }
     }, [currUser])
-    console.log(requests)
 
     return (
         <div>
             {
                 requests.map((request) => {
                     return (
-                        <div key={request._id}>
-                            <Link to={`/profile/${request.requester._id}`}>{request.requester.username}</Link>
-                            <button>Accept</button>
-                            <button>Decline</button>
-                        </div>
+                        <RequestCard key={request._id} data={request} requests={requests} setRequests={setRequests} />
                     )
                 })
             }

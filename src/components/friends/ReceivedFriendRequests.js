@@ -1,7 +1,8 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 
 const ReceivedFriendRequests = ({ currUser }) => {
-
+    const [requests, setRequests] = useState([])
 
     useEffect(() => {
         try {
@@ -15,8 +16,10 @@ const ReceivedFriendRequests = ({ currUser }) => {
                     },
                 })
                 const data = await res.json()
-                console.log(data.all_requests)
 
+                if (data.all_requests) {
+                    setRequests(data.all_requests)
+                }
             }
             getReceivedReqs()
 
@@ -24,10 +27,21 @@ const ReceivedFriendRequests = ({ currUser }) => {
             console.log(error)
         }
     }, [currUser])
+    console.log(requests)
 
     return (
         <div>
-            Received Friend Requests
+            {
+                requests.map((request) => {
+                    return (
+                        <div key={request._id}>
+                            <Link to={`/profile/${request.requester._id}`}>{request.requester.username}</Link>
+                            <button>Accept</button>
+                            <button>Decline</button>
+                        </div>
+                    )
+                })
+            }
         </div>
     )
 }

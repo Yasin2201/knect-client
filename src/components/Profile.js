@@ -91,7 +91,7 @@ const Profile = ({ currUser }) => {
                 userDetails ?
                     <div>
                         <h1>{userDetails.username}</h1>
-                        {currUser === id && <FriendsDisplay />}
+                        {currUser === id && <FriendsDisplay currUser={currUser} />}
                         {currUser === id && <NewPost currUser={currUser} postsInfo={postsInfo} setPostsInfo={setPostsInfo} />}
 
                         <h3>My Posts</h3>

@@ -3,7 +3,7 @@ import FriendsList from "./FriendsList";
 import ReceivedFriendRequests from "./ReceivedFriendRequests";
 import SentFriendRequests from "./SentFriendRequests";
 
-const FriendsDisplay = () => {
+const FriendsDisplay = ({ currUser }) => {
     let [viewOption, setViewOption] = useState('All Friends')
     let currentView;
 
@@ -13,11 +13,11 @@ const FriendsDisplay = () => {
     }
 
     if (viewOption === 'All Friends') {
-        currentView = <FriendsList />
+        currentView = <FriendsList currUser={currUser} />
     } else if (viewOption === 'Received Requests') {
-        currentView = <ReceivedFriendRequests />
+        currentView = <ReceivedFriendRequests currUser={currUser} />
     } else if (viewOption === 'Sent Requests') {
-        currentView = <SentFriendRequests />
+        currentView = <SentFriendRequests currUser={currUser} />
     }
 
     return (

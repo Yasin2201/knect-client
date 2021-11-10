@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import RequestCard from "./RequestCard"
 
 const SentFriendRequests = ({ currUser }) => {
     const [requests, setRequests] = useState([])
@@ -29,7 +30,13 @@ const SentFriendRequests = ({ currUser }) => {
 
     return (
         <div>
-            Sent Friend Requests
+            {
+                requests.map((request) => {
+                    return (
+                        <RequestCard key={request._id} data={request} requests={requests} setRequests={setRequests} isSentRequest={true} />
+                    )
+                })
+            }
         </div>
     )
 }

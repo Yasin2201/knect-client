@@ -43,11 +43,29 @@ const RequestCard = ({ data, requests, setRequests, isSentRequest }) => {
         }
     }
 
+    const cancelRequest = async () => {
+        try {
+            const res = await fetch(`http://localhost:3000/${data.requester}/request/${data._id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                },
+            })
+            const resData = await res.json()
+            console.log(resData)
+            filterFriendReqs()
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         isSentRequest ?
             <div>
                 <Link to={`/profile/${data.recipient._id}`}>{data.recipient.username}</Link>
-                <button>Cancel</button>
+                <button onClick={cancelRequest}>Cancel</button>
             </div>
             :
             <div>

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const RequestCard = ({ data, requests, setRequests }) => {
+const RequestCard = ({ data, requests, setRequests, isSentRequest }) => {
 
     const filterFriendReqs = () => {
         const filteredReqs = requests.filter((req) => req._id !== data._id)
@@ -44,13 +44,17 @@ const RequestCard = ({ data, requests, setRequests }) => {
     }
 
     return (
-        <div>
+        isSentRequest ?
+            <div>
+                <Link to={`/profile/${data.recipient._id}`}>{data.recipient.username}</Link>
+                <button>Cancel</button>
+            </div>
+            :
             <div>
                 <Link to={`/profile/${data.requester._id}`}>{data.requester.username}</Link>
                 <button onClick={acceptRequest}>Accept</button>
                 <button onClick={declineRequest}>Decline</button>
             </div>
-        </div>
     )
 }
 

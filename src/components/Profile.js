@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import Post from './Post';
 import NewPost from "./NewPost";
 import FriendsDisplay from "./friends/FriendsDisplay";
+import ProfileFriendshipStatus from './friends/ProfileFriendshipStatus';
 
 //TO-DO----
 //Get friends list and render
@@ -84,13 +85,14 @@ const Profile = ({ currUser }) => {
         }
     }, [id])
 
-
     return (
         <div>
             {
                 userDetails ?
                     <div>
                         <h1>{userDetails.username}</h1>
+
+                        {currUser !== id && <ProfileFriendshipStatus currUser={currUser} />}
                         {currUser === id && <FriendsDisplay currUser={currUser} />}
                         {currUser === id && <NewPost currUser={currUser} postsInfo={postsInfo} setPostsInfo={setPostsInfo} />}
 

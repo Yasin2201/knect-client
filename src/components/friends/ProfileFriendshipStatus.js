@@ -44,13 +44,29 @@ const ProfileFriendshipStatus = ({ currUser }) => {
         }
     }
 
-    console.log(profileFriendStatus)
+    const removeFriend = async () => {
+        try {
+            const response = await fetch(`http://localhost:3000/${currUser}/unfriend/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                },
+            })
+            const data = await response.json()
+            setProfileFriendStatus(data)
+        } catch (err) {
+            throw err
+        }
+    }
+
     return (
         profileFriendStatus.reqStatus && !profileFriendStatus.friendshipStatus ?
             <button disabled>{profileFriendStatus.msg}</button>
             :
             profileFriendStatus.reqStatus && profileFriendStatus.friendshipStatus ?
-                <button>{profileFriendStatus.msg}</button>
+                <button onClick={removeFriend}>{profileFriendStatus.msg}</button>
                 :
                 <button onClick={addFriend}>{profileFriendStatus.msg}</button>
     )

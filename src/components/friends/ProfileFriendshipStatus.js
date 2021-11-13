@@ -2,7 +2,7 @@ import { useEffect, useState } from "react/cjs/react.development"
 import { useParams } from "react-router";
 
 const ProfileFriendshipStatus = ({ currUser }) => {
-    const [profileFriendStatus, setProfileFriendStatus] = useState({ status: false })
+    const [profileFriendStatus, setProfileFriendStatus] = useState({ reqStatus: false, friendshipStatus: false })
     const { id } = useParams();
 
     useEffect(() => {
@@ -27,16 +27,32 @@ const ProfileFriendshipStatus = ({ currUser }) => {
         }
     }, [id, currUser])
 
+    const addFriend = async () => {
+        try {
+            const response = await fetch(`http://localhost:3000/${currUser}/request/${id}`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                },
+            })
+            const data = await response.json()
+            setProfileFriendStatus(data)
+        } catch (err) {
+            throw err
+        }
+    }
+
     console.log(profileFriendStatus)
     return (
-        <div>
-            {
-                profileFriendStatus.status ?
-                    <button>{profileFriendStatus.msg}</button>
-                    :
-                    <button disabled>{profileFriendStatus.msg}</button>
-            }
-        </div>
+        profileFriendStatus.reqStatus && !profileFriendStatus.friendshipStatus ?
+            <button disabled>{profileFriendStatus.msg}</button>
+            :
+            profileFriendStatus.reqStatus && profileFriendStatus.friendshipStatus ?
+                <button>{profileFriendStatus.msg}</button>
+                :
+                <button onClick={addFriend}>{profileFriendStatus.msg}</button>
     )
 }
 
